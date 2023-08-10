@@ -1,0 +1,81 @@
+1. 프로토콜 (Protocol)
+   - 응용 프로토콜 : HTTP (80), HTTPS(443), FTP(21), SMTP...
+   - 전송 프로토콜 : TCP, UDP - 전송 제어 (에러 제어...)
+   				 각각 65536개의 포트를 가진다.
+   				 UDP 는 멀티 미디어용
+   - 인터넷 프로토콜 : IP (IP 주소를 제공)
+   - LAN 프로토콜 : Ethernet
+   
+2. 포트
+   - 웹 서버는 80번 포트를 열고 사용자의 접속을 기다린다 (Listen).
+   - 사용자가 접속하면 사용자와 새로운 포트를 연결하여 서비스를 제공한다
+   	 (80번은 다음 사용자를 기다림).
+   - http://localhost:8081
+   
+3. 방화벽 (FireWall)
+   - 포트를 차단하면 인터넷을 사용할 수 없다.
+   	 방화벽은 포트를 차단한다.
+   - 오라클 포트 : 1521
+   
+4. 웹 서버와 WAS
+   - 웹 서버 (HTTP 서버)는 사용자의 모든 요청을 접수하고 정적인 요청인 경우
+     서비스한다.
+     자신이 이해하지 못하는 요청일 경우, WAS 에 넘긴다.
+   - WAS (Web Application Server)는 백엔드 자바를 실행해주는 서버이다.
+   	 Tomcat, UnderTow 등이 있다.
+   	 웹 서버가 넘긴 요청을 처리하여 (JSP 를 실행하여) HTML 을 생성한 다음,
+   	 웹 서버에 토스한다.
+   - 결국 사용자와 요청/응답하는 서버는 웹 서버이다.
+   
+5. MVC (Model 2)
+   - Model : 데이터를 처리 (DAO 와 서비스)
+   - View : 데이터 출력 담당
+   - Controller : Model 과 View 를 연결
+   
+6. 스프링의 역할
+   - Inversion of Control (제어 역전) : 개발은 스프링이 끌고 간다.
+   - Dependency Injection (의존성 주입) : @Autowired
+   - AOP : 반복되는 작업 (횡단 관심. 대표적으로 로그인)을 자동화
+   
+7. 스프링 개발 환경
+   - Spring Legacy (MVC) : 외장 톰캣 + JSP + XML 설정
+   - Spring Boot : 내장 톰캣, 자바 기반 자동 설정 + JPA
+   
+8. 스프링 어노테이션
+   - @Component
+   - @Controller, @RestController
+   - @Service
+   - @Repository
+   - @Configuration
+   - @Bean
+   
+   - @RequestMapping
+   - @GetMapping
+   - @PostMapping
+   
+   - @RequestParam
+   - @PathVariable
+   - @ModelAttribute
+   
+9. 스프링 컨트롤러의 리턴
+   - @GetMapping("/read")
+   	 public void read(Model model) {} JSP 이름 : read.jsp, 데이터 : mode;
+   - @GetMapping("/read")
+     public String read(Model model) {
+     	model.addAttribute("board", board);
+     	return "view";
+     }
+   - @GetMapping("/read")
+     public ModelAndView read() {
+     	return new ModelAndView("view").addObject("board", board);
+     }
+     
+10. 값을 전달하기
+   - Model : 저장한 값은 JSP 에서 출력할 수 있고, 자동으로 파괴된다.
+   - HttpSession : 앱 전체에서 사용 가능
+		서버에 마련된 사용자의 정보 저장 공간
+		사용자마다 하나씩 가진다.
+		로그인이나 장바구니 등에 사용된다.
+		일정 시간동안 사용하지 않으면 파괴된다.
+		사용자가 접근하였는데 세션이 없으면 새로 생성한다.
+   - RedirectAttributes

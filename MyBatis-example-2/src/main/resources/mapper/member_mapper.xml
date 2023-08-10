@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<select id="existsByUsername" resultType="boolean">
+		select count(username) from member where username=#{username} and rownum=1
+	</select>
+	
+	<insert id="save">
+		insert into member values
+		(#{username},#{password},#{email},
+		#{birthday},#{joinday})
+	</insert>
+	
+	<select id="existsUsernameByEmail" resultType="string">
+		select username from member where email=#{email} and rownum=1
+	</select>
+	
+	<select id="findById" resultType="member">
+		select * from member where username=#{username} and rownum=1
+	</select>
+	
+	<update id="changePassword">
+		update member set password=#{password} where username=#{username}
+	</update>
+	
+	<update id="changeEmail">
+		update member set email=#{email} where username=#{username}
+	</update>
+	
+	<delete id="delete">
+		delete from member where username=#{loginId}
+	</delete>
+</mapper>
